@@ -1,4 +1,5 @@
-extern crate gl;
+use gl;
+use glm;
 
 use std::fs::File;
 use std::io::Read;
@@ -153,6 +154,21 @@ impl Shader{
     pub fn use_shader(&self){
         unsafe{
             gl::UseProgram(self.shader_program);
+        }
+    }
+
+    pub fn get_uniform(&self, name: &str) -> i32{
+        unsafe{
+            gl::GetUniformLocation(self.shader_program, name.as_ptr().cast())
+        }
+    }
+
+    pub fn uniform_mat4(mat: glm::Mat4, loc: i32){
+        unsafe{
+            gl::UniformMatrix4fv(loc as gl::types::GLint,
+                                 1,
+                                 gl::FALSE,
+                                 mat.as_array().as_ptr().cast())
         }
     }
 
