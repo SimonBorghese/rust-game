@@ -1,6 +1,9 @@
 use crate::ogl;
 use crate::ogl::vao::VertexPointer;
 
+pub struct Vertex{
+    pub pos: glm::Vec3
+}
 pub struct Mesh{
     vao: Option<ogl::vao::Vao>,
     vbo: Option<ogl::buffer::Buffer>,
@@ -17,14 +20,16 @@ impl Mesh{
             num_vertices: 0,
         }
     }
-    pub fn create(&mut self){
+    pub fn create(mut self) -> Mesh{
         self.vao = Some(ogl::vao::Vao::new());
         self.vbo = Some(ogl::buffer::Buffer::new().create());
         self.ebo = Some(ogl::buffer::Buffer::new().create());
         self.num_vertices = 0;
+
+        self
     }
 
-    pub fn load_vertices(&mut self, vertices: &Vec<f32>, indices: &Vec<u32>){
+    pub fn load_vertices(mut self, vertices: &Vec<Vertex>, indices: &Vec<u32>) -> Mesh{
         let vao = self.vao.as_mut().expect("No VAO");
         let vbo = self.vbo.as_mut().expect("No VBO");
         let ebo = self.ebo.as_mut().expect("No EBO");
@@ -48,6 +53,8 @@ impl Mesh{
         ogl::vao::Vao::unbind();
         ogl::buffer::Buffer::unbind(gl::ARRAY_BUFFER);
         ogl::buffer::Buffer::unbind(gl::ELEMENT_ARRAY_BUFFER);
+
+        self
     }
 
     pub fn draw_all(&self){

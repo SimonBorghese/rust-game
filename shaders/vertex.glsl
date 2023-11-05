@@ -10,6 +10,9 @@ layout (std140, binding = 0) uniform Camera
 
 layout (location = 1) uniform mat4 model;
 
+out vec3 oVex;
+
 void main(){
+    oVex = aPos;
     gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
