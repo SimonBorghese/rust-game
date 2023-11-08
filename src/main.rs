@@ -2,7 +2,6 @@ mod ogl;
 mod graphics;
 mod entity;
 
-use std::ops::Add;
 use sdl2;
 use gl;
 
@@ -18,7 +17,9 @@ fn main() {
 
     let mut timer = window.sdl.timer().expect("Couldn't get timer!");
 
+
     let mut last_time = timer.ticks();
+
     'mainLoop: loop {
         timer.delay(16 - (timer.ticks() - last_time));
         let deltatime = (timer.ticks() - last_time) as f32 / 1000.0;

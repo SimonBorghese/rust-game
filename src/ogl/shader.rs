@@ -172,6 +172,13 @@ impl Shader{
         }
     }
 
+    pub fn uniform_int(mat: i32, loc: i32){
+        unsafe{
+            gl::Uniform1i(loc as gl::types::GLint,
+                                 mat)
+        }
+    }
+
     pub fn disable_shader(){
         unsafe{
             println!("Disabling shader!");

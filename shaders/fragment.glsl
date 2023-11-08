@@ -3,7 +3,10 @@
 out vec4 FragColor;
 
 in vec3 oVex;
+in vec2 oTex;
+
+layout (location = 1) uniform sampler2D tex;
 
 void main(){
-    FragColor = vec4(oVex, 1.0f);
+    FragColor = texture(tex, oTex);
 }

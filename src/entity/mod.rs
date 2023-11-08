@@ -1,9 +1,7 @@
-use glm;
-
 pub mod loader;
 
 pub struct Entity{
-    meshes: Option<Vec<crate::graphics::mesh::Mesh>>
+    meshes: Option<Vec<crate::graphics::mesh_renderer::MeshRenderer>>
 }
 
 impl Entity{
@@ -21,7 +19,7 @@ impl Entity{
 
     pub fn render(&self){
         for mesh in self.meshes.as_ref().expect("No loaded Meshes!"){
-            mesh.draw_all();
+            mesh.render();
         }
     }
 }

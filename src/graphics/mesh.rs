@@ -1,14 +1,45 @@
 use crate::ogl;
 use crate::ogl::vao::VertexPointer;
 
+#[repr(C)]
 pub struct Vertex{
-    pub pos: glm::Vec3
+    pub pos: glm::Vec3,
+    pub norm: glm::Vec3,
+    pub tex: glm::Vec2
 }
 pub struct Mesh{
     vao: Option<ogl::vao::Vao>,
     vbo: Option<ogl::buffer::Buffer>,
     ebo: Option<ogl::buffer::Buffer>,
     num_vertices: usize
+}
+
+impl Vertex{
+    pub fn new() -> Vertex{
+        Vertex{
+            pos: glm::vec3(0.0, 0.0, 0.0),
+            norm: glm::vec3(0.0, 0.0, 0.0),
+            tex: glm::vec2(0.0, 0.0)
+        }
+    }
+
+    pub fn pos(mut self, x: f32, y: f32, z: f32) -> Vertex{
+        self.pos = glm::vec3(x,y,z);
+
+        self
+    }
+
+    pub fn norm(mut self, x: f32, y: f32, z: f32) -> Vertex{
+        self.norm = glm::vec3(x,y,z);
+
+        self
+    }
+
+    pub fn tex(mut self, x: f32, y: f32) -> Vertex{
+        self.tex = glm::vec2(x,y);
+
+        self
+    }
 }
 
 impl Mesh{
@@ -46,9 +77,23 @@ impl Mesh{
             .location(0)
             .num_values(3)
             .type_value(gl::FLOAT)
-            .raw_size(std::mem::size_of::<f32>() * 3)
+            .raw_size(std::mem::size_of::<Vertex>())
             .pointer(0));
+        vao.add_pointer(VertexPointer::new()
+            .location(1)
+            .num_values(3)
+            .type_value(gl::FLOAT)
+            .raw_size(std::mem::size_of::<Vertex>())
+            .pointer(std::mem::size_of::<f32>() * 3));
+        vao.add_pointer(VertexPointer::new()
+            .location(2)
+            .num_values(2)
+            .type_value(gl::FLOAT)
+            .raw_size(std::mem::size_of::<Vertex>())
+            .pointer(std::mem::size_of::<f32>() * 6));
         vao.enable_pointer(0);
+        vao.enable_pointer(1);
+        vao.enable_pointer(2);
 
         ogl::vao::Vao::unbind();
         ogl::buffer::Buffer::unbind(gl::ARRAY_BUFFER);
