@@ -38,6 +38,7 @@ pub fn load_mesh(file_name: &str) -> Vec<graphics::mesh_renderer::MeshRenderer>{
         }
 
 
+        // Below is a certified rust moment
         meshes.push(graphics::mesh_renderer::MeshRenderer::new()
                         .add_mesh(graphics::mesh::Mesh::new().create()
             .load_vertices(&vertices, &indices))

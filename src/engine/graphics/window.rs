@@ -60,6 +60,10 @@ impl Window{
         self.event.as_mut().expect("Couldn't poll events").poll_iter()
     }
 
+    pub fn get_scancode_iterator(&mut self) -> sdl2::keyboard::KeyboardState{
+        self.event.as_mut().expect("Couldn't get events").keyboard_state()
+    }
+
     pub fn flip(&self){
         self.window.as_ref().expect("Couldn't get Window!").gl_swap_window();
     }
